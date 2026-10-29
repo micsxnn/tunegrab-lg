@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Identidade tipográfica: TODA a interface usa Poppins.
+    Cada TextAppearance do Material 3 é sobrescrito no tema (themes.xml)
+    apontando para a família @font/inter — assim botões, chips, bottom nav,
+    bottom sheets, text fields e TextViews herdam a mesma fonte.
+-->
+<resources>
+
+    <!-- TextView "puro" (framework) também recebe Poppins -->
+    <style name="Widget.TuneGrab.TextView" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <!-- Base da família (não usada diretamente) -->
+    <style name="TextAppearance.TuneGrab" parent="">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <style name="TextAppearance.TuneGrab.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+    </style>
+
+    <!-- ══ Configurações por categoria (v0.19.8) — linhas de ícone/título/sub
+         estilo YouTube, como o print que o autor mandou ══ -->
+    <style name="SettingsRow">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">60dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="SettingsRowIcon">
+        <item name="tint">@color/primary</item>
+    </style>
+
+    <style name="SettingsRowTexts">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_marginStart">16dp</item>
+    </style>
+
+    <style name="SettingsRowTitle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/on_background</item>
+    </style>
+
+    <style name="SettingsRowSub">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/on_surface_variant</item>
+        <item name="android:layout_marginTop">2dp</item>
+    </style>
+
+    <!-- ══ Opções INLINE (v0.19.10 — "só aparece o que cada config faz",
+         pedido do autor): título de grupo dentro da página, como as seções
+         das configs do YouTube de verdade ══ -->
+    <style name="SettingsSection">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/on_background</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">2dp</item>
+    </style>
+
+    <!-- Bolinha de seleção das linhas de opção: SÓ VISUAL — quem responde ao
+         toque é a linha inteira (como no YouTube), o radio é decorativo -->
+    <style name="SettingsRadio">
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="buttonTint">@color/primary</item>
+    </style>
+</resources>

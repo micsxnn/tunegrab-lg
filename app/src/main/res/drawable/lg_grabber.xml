@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Puxador (grabber) das sheets: a pílula do iOS no topo do vidro -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#4DFFFFFF" />
+    <corners android:radius="3dp" />
+    <size
+        android:width="36dp"
+        android:height="5dp" />
+</shape>

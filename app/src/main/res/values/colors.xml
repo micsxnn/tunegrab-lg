@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta Liquid Glass (tunegrab-lg v0.23.0): a marca continua OURO,
+         mas o palco virou iOS. Fundo OLED quase preto (#050506, igual às
+         telas escuras do iOS), superfícies viraram VIDRO (branco translúcido
+         — é o próprio card aparecendo por cima do conteúdo), texto no
+         branco da Apple (#F5F5F7) e cinza systemGray pros metadados.
+         Contrastes conferidos: on_background sobre background 17:1;
+         on_surface_variant sobre background 5.9:1; primary como texto 12:1 -->
+    <color name="background">#050506</color>
+    <color name="surface">#16FFFFFF</color>
+    <color name="stroke">#1FFFFFFF</color>
+    <color name="primary">#F5D161</color>
+    <color name="secondary">#C9974C</color>
+    <color name="on_background">#F5F5F7</color>
+    <color name="on_surface_variant">#98989E</color>
+    <color name="icon_bg_start">#A06E12</color>
+    <color name="icon_bg_end">#F5D161</color>
+    <color name="state_done">#4ADE80</color>
+    <color name="state_failed">#F87171</color>
+    <!-- Container roles: ouro translúcido sobre vidro (o "tint" do iOS
+         aplicado à marca). on_secondary_container sobre container 9:1 -->
+    <color name="primary_container">#33F5D161</color>
+    <color name="on_primary_container">#F5D161</color>
+    <color name="secondary_container">#2EC9974C</color>
+    <color name="on_secondary_container">#F5D161</color>
+    <color name="tertiary_container">#3EC9974C</color>
+    <color name="on_tertiary_container">#FFF0C2</color>
+    <color name="outline">#33FFFFFF</color>
+    <!-- Cartão selecionado na Biblioteca: ouro 16% sobre o vidro -->
+    <color name="sel_card">#29F5D161</color>
+    <!-- Elevation grays do iOS (diálogos/sheets precisam de corpo opaco:
+         o M3 usa surfaceContainer pro fundo de AlertDialog; translúcido
+         aqui deixaria o scrim atravessar o texto) -->
+    <color name="elev_1">#141416</color>
+    <color name="elev_2">#1C1C1E</color>
+    <color name="elev_3">#2C2C2E</color>
+</resources>

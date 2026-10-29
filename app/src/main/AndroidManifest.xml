@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Fase 2 do update: o app baixa o APK da release e entrega ao instalador
+         do sistema (a confirmação final é sempre do usuário, no instalador) -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <!-- Biblioteca: enxergar músicas baixadas em QUALQUER pasta, mesmo
+         depois de desinstalar/reinstalar (banner na aba Músicas pede) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <application
+        android:name=".TuneGrabApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.TuneGrab">
+
+        <!-- WebView do gerador de PoToken: sem telemetria nem Safe Browsing
+             (a página local roda a VM do BotGuard, todo o HTTP é feito pelo app) -->
+        <meta-data
+            android:name="android.webkit.WebView.MetricsOptOut"
+            android:value="true" />
+        <meta-data
+            android:name="android.webkit.WebView.EnableSafeBrowsing"
+            android:value="false" />
+
+        <!-- Loader de abertura: Bem-vindo em cursiva + assinatura com led
+             passando (v0.15.0). Só aparece na abertura pelo ícone — links
+             compartilhados/abertos seguem direto para a MainActivity. -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.TuneGrab.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Trava de acesso (v0.20.0): o app é POR CONVITE. Aparelho sem
+             senha liberada chega aqui pelo Splash (e links compartilhados
+             batem no guard da MainActivity). A senha é conferida na lista
+             de hashes do próprio repo (access/passwords.json); acertou,
+             o aparelho destrava pra sempre — limpar os dados volta a pedir. -->
+        <activity
+            android:name=".access.LockActivity"
+            android:exported="false"
+            android:theme="@style/Theme.TuneGrab"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize">
+
+            <!-- Compartilhar link do YouTube diretamente no TuneGrab -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+            <!-- Abrir links do YouTube no TuneGrab -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="youtube.com" />
+                <data android:host="www.youtube.com" />
+                <data android:host="m.youtube.com" />
+                <data android:host="music.youtube.com" />
+                <data android:host="youtu.be" />
+            </intent-filter>
+        </activity>
+
+        <!-- Tutorial de primeira abertura (v0.19.6): roteado pelo Splash na
+             1ª vez que o app abre; Config. > Como usar também reabre -->
+        <activity
+            android:name=".OnboardingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.TuneGrab" />
+
+        <service
+            android:name=".download.DownloadService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <!-- Música em segundo plano: mediaPlayback com notificação de mídia -->
+        <service
+            android:name=".playback.PlaybackService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+
+        <!-- Botões da janelinha PiP (play/pause sem expandir o vídeo) -->
+        <receiver
+            android:name=".PipActionReceiver"
+            android:exported="false" />
+
+        <!-- Player embutido (áudio com controles próprios / vídeo em tela).
+             configChanges: girar para tela cheia NÃO recria a activity — o
+             vídeo continua tocando na rotação. supportsPictureInPicture:
+             MINIPLAYER DE VÍDEO (v0.18.2) — saiu do app com vídeo tocando, o
+             vídeo segue na janelinha flutuante igual YouTube Premium. -->
+        <activity
+            android:name=".PlayerActivity"
+            android:exported="false"
+            android:supportsPictureInPicture="true"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+            android:theme="@style/Theme.TuneGrab" />
+
+        <!-- GERADOR DE LETRA (v0.22.7): tela da letra da faixa tocando —
+             só interface, o som continua no PlaybackService (mesma religião
+             da PlayerActivity). Não é aberta de fora do app. -->
+        <activity
+            android:name=".LyricsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.TuneGrab" />
+
+        <activity
+            android:name=".CrashReportActivity"
+            android:exported="false"
+            android:theme="@style/Theme.TuneGrab" />
+
+        <!-- Abrir/compartilhar arquivos baixados no Android 7–9 (file:// é proibido) -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+</manifest>

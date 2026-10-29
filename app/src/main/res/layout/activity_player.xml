@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <com.tunegrab.app.video.FitVideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <!-- Player HD (v0.17.0): reprodução DASH do play do Início — faixa de
+         vídeo (até 1080p, video-only) + faixa de áudio separadas, MERGIDAS
+         pelo ExoPlayer (Media3). O FitVideoView acima segue nos arquivos
+         LOCAIS da Biblioteca (MediaPlayer). resize_mode=fit mantém o aspect
+         ratio em qualquer tela/orientação; show_buffering gira o spinner -->
+    <androidx.media3.ui.PlayerView
+        android:id="@+id/playerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:resize_mode="fit"
+        app:show_buffering="always"
+        app:use_controller="true" />
+
+    <!-- Controles de ÁUDIO — estilo minimalista da referência (v0.18.8):
+         cartão de arte grande com cantos bem redondos, waveform fina do som
+         REAL, progresso fino, botão de play circular CHEIO e slider de
+         volume — tudo na paleta dourada do app -->
+    <LinearLayout
+        android:id="@+id/audioControls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone">
+
+        <!-- RETÂNGULO 16:9 DE LARGURA CHEIA (v0.22.14, pedido do autor:
+             "em vez de um viewer quadrado, um retângulo com tamanho perfeito
+             pra caber só as thumbs do YouTube"): a ALTURA do cartão é
+             calculada em código (applyArtRatio) = largura × 9/16 — a
+             proporção EXATA da thumbnail que o yt-dlp embute — então a
+             imagem encaixa SEM SOBRA nenhuma: nada de barra dourada em
+             cima/embaixo (o que sobrava do quadrado 220dp com fitCenter).
+             centerCrop: no retângulo 16:9 a thumb 16:9 não é recortada EM
+             NADA, e capa quadrada de álbum cobre o retângulo inteiro, no
+             espírito do modelo antigo. clipToOutline mantém o contorno
+             arredondado do bg_album_art. Sem capa: o ícone. -->
+        <FrameLayout
+            android:id="@+id/artCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgArt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_album_art"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/imgArtIcon"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_music_note"
+                app:tint="#FFFFFF" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:textColor="@color/on_background"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- GERADOR DE LETRA (v0.22.7, pedido do autor): pastilha "Letra" —
+             abre a letra da faixa na tela inteira (sincronizada quando
+             existe: a linha acende no tempo do som e a tela anda sozinha) -->
+        <TextView
+            android:id="@+id/btnLyrics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_lyrics_pill"
+            android:contentDescription="@string/player_lyrics_desc"
+            android:drawablePadding="7dp"
+            android:drawableTint="@color/primary"
+            android:paddingStart="18dp"
+            android:paddingTop="9dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="9dp"
+            android:text="@string/player_lyrics"
+            android:textColor="@color/on_background"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_lyrics" />
+
+        <!-- Barrinhas de DJ (v0.18.9): espectro REAL do áudio que está
+             tocando — o SpectrumProcessor espia o PCM dentro do próprio
+             player (SEM permissão nenhuma). Grave no centro, agudo nas
+             pontas, espelhado e SEM emenda. Faixa alta: as barras sobem
+             de verdade na pancada -->
+        <com.tunegrab.app.VisualizerView
+            android:id="@+id/visualizer"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginTop="18dp"
+            android:visibility="gone" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:progressBackgroundTint="@color/stroke"
+            android:progressTint="@color/primary"
+            android:thumbTint="@color/primary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvPosition"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvDuration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Transporte (v0.19.0): ANTERIOR — play — PRÓXIMA (pedido do
+             autor). Os botões laterais conversam com a fila da Biblioteca
+             que o PlaybackService guarda; sem fila, ficam apagados.
+             O slider de volume saiu (pedido: "tira aquilo de áudio") -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnPrev"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/player_previous"
+                android:padding="14dp"
+                android:src="@drawable/ic_skip_previous"
+                app:tint="@color/on_background" />
+
+            <!-- Play/PAUSE: disco circular cheio (estilo da referência), ícone
+                 escuro por cima do dourado -->
+            <ImageButton
+                android:id="@+id/btnPlay"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginEnd="22dp"
+                android:background="@drawable/bg_play_circle"
+                android:contentDescription="@string/player_play"
+                android:padding="21dp"
+                android:src="@drawable/ic_play"
+                app:tint="@color/background" />
+
+            <ImageButton
+                android:id="@+id/btnNext"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/player_next"
+                android:padding="14dp"
+                android:src="@drawable/ic_skip_next"
+                app:tint="@color/on_background" />
+        </LinearLayout>
+
+        <!-- REPRODUÇÃO AUTOMÁTICA (v0.19.18, pedido do autor: "deve estar no
+             player também"): linha PRÓPRIA embaixo do transporte, estilo
+             YouTube Music — nome + switch. O botão da v0.19.16 apertava a
+             linha de transporte inteira (empurrava os ícones); aqui NADA se
+             move. Desde a v0.19.21 vive em TODO player de música (Biblioteca,
+             Central e cartão — o tick revela), e o switch é SÓ DA SESSÃO: não
+             escreve na pref das Configurações (o regente), vale enquanto o
+             player está aberto e morre quando ele fecha. LIGADA: a próxima
+             toca sozinha; DESLIGADA: a música para quando acaba -->
+        <LinearLayout
+            android:id="@+id/rowAutoplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/set_row_autoplay"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="13sp" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/swAutoplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:contentDescription="@string/set_row_autoplay" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Carregando stream remoto (reproduzir sem baixar): gira até o
+         MediaPlayer preparar / termina a pausa de rede -->
+    <ProgressBar
+        android:id="@+id/progressBuffer"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:contentDescription="@string/player_buffering"
+        android:indeterminateTint="@color/primary"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/btnClose"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_margin="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/player_close"
+        android:src="@drawable/ic_back"
+        app:tint="@color/on_background" />
+
+    <!-- CORAÇÃO (v0.22.11): salva a música nos Favoritos. Vive no canto
+         oposto ao fechar, POR CIMA de qualquer modo (áudio ou vídeo) —
+         o play HD não usa os controles de áudio, então o coração não pode
+         depender deles. v0.22.12: nasce em TODOS os modos — faixa do
+         YouTube guarda o link; arquivo local (Biblioteca/Downloads/cartão)
+         guarda o próprio uri do arquivo. -->
+    <ImageButton
+        android:id="@+id/btnFavorite"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/player_fav_desc"
+        android:src="@drawable/ic_heart"
+        android:visibility="gone"
+        app:tint="@color/on_background" />
+
+    <!-- Tela cheia do VÍDEO: gira o app para paisagem (só aparece no vídeo) -->
+    <ImageButton
+        android:id="@+id/btnFullscreen"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/player_fullscreen"
+        android:src="@drawable/ic_fullscreen"
+        android:visibility="gone"
+        app:tint="@color/on_background" />
+</FrameLayout>

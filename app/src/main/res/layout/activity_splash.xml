@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Loader de abertura: logo e "bem-vindo" na Aston Script (fonte do próprio
+     autor do app). Desde a v0.18.8 a VERSÃO fica no rodapé da tela (pedido
+     do autor) e desde a v0.18.10 a assinatura "feito por Micael San" voltou
+     pra cá, AO LADO do número (com o letreiro de led). O "bem-vindo" tem
+     ALTURA FIXA: o
+     autoSize com wrap_content deixava a view mais baixa que a própria linha
+     da fonte (a Aston Script tem caixa de linha de 2,175em) e o Android
+     cortava metade do texto — com altura fixa o autoSize só escolhe o
+     tamanho pela largura e a caixa nunca aperta. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp">
+
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/ic_launcher" />
+
+        <!-- autoSize pela LARGURA + altura FIXA de 124dp (caixa cheia do tamanho
+             máximo, 56sp × 2,175em = 122dp): o texto nunca é cortado — nem em
+            baixo (altura fixa, era o bug do corte ao meio), nem pela largura
+             (autoSize acha o tamanho que cabe em qualquer tela/escala) -->
+        <TextView
+            android:id="@+id/txtWelcome"
+            android:layout_width="match_parent"
+            android:layout_height="124dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/aston_script"
+            android:gravity="center"
+            android:text="@string/splash_welcome"
+            android:textColor="@color/on_background"
+            app:autoSizeMaxTextSize="56sp"
+            app:autoSizeMinTextSize="24sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
+
+        <ProgressBar
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="42dp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/primary" />
+    </LinearLayout>
+
+    <!-- Rodapé (v0.18.10): versão + "feito por Micael San" AO LADO — o nome
+         VOLTOU pra tela de bem-vindo (pedido do autor), de novo com o
+         letreiro de led (LedTextView). O texto do número é preenchido no
+         SplashActivity com o BuildConfig da build — nunca desatualiza -->
+    <LinearLayout
+        android:id="@+id/footerGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="26dp"
+        android:alpha="0"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.06"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="13sp" />
+
+        <com.tunegrab.app.ui.LedTextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:letterSpacing="0.12"
+            android:text="@string/splash_name"
+            android:textColor="@color/primary"
+            android:textSize="16sp" />
+    </LinearLayout>
+</FrameLayout>

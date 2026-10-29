@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- BARRA DE VIDRO (tunegrab-lg v0.23.0): a ExpandingNavBar "empurra" (a aba
+     clicada cresce, v0.19.3) agora flutua DENTRO de uma pílula de Liquid
+     Glass — o GlassView desfoca AO VIVO o conteúdo que passa por trás
+     (RenderEffect no Android 12+, RenderScript no 7-11) e a aberração
+     cromática da marca mora no GlassPaintDrawable desenhado por cima.
+     Mesmo ID bottomNav de sempre — binding e MainActivity não mudam. -->
+<com.tunegrab.app.lg.GlassView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navGlass"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="12dp">
+
+    <com.tunegrab.app.ui.ExpandingNavBar
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" />
+</com.tunegrab.app.lg.GlassView>

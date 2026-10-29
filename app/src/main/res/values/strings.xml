@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TuneGrab LG</string>
+    <string name="app_sub">Baixe o áudio de vídeos do YouTube</string>
+
+    <!-- Splash de boas-vindas (v0.15.0) — minúsculo de propósito: o "B" maiúsculo
+         do Great Vibes tem um swash gigante que parece um "o" solto na tela -->
+    <string name="splash_welcome">bem-vindo</string>
+    <string name="splash_made_by">feito por</string>
+    <string name="splash_name">Micael San</string>
+
+    <!-- Letreiro led do Início (v0.16.0) -->
+    <string name="home_led">♪ TuneGrab ♪</string>
+
+    <string name="hint_url">Cole o link do YouTube aqui</string>
+    <string name="btn_download">Baixar</string>
+    <string name="cd_thumb">Miniatura do vídeo</string>
+    <string name="cd_paste">Colar da área de transferência</string>
+    <string name="cd_play">Reproduzir o vídeo sem baixar</string>
+    <string name="paste_empty">Nada para colar na área de transferência.</string>
+
+    <string name="cancel">Cancelar</string>
+
+    <!-- Seletor de formato/qualidade -->
+    <string name="pick_format">Formato</string>
+    <string name="pick_quality">Qualidade</string>
+    <string name="status_idle">Pronto. Cole um link e toque em Baixar.</string>
+    <string name="status_fetching">Buscando informações…</string>
+    <string name="status_checking">Testando os links de download…</string>
+    <string name="status_opening_player">Abrindo o player…</string>
+    <string name="status_pick_format">Escolha o formato e a qualidade 👇</string>
+    <string name="status_rescue">O YouTube bloqueou a extração normal — usando o motor de resgate (yt-dlp)…</string>
+    <string name="status_downloading">Baixando… acompanhe na Central de Downloads. O arquivo é salvo em Downloads/TuneGrab.</string>
+    <string name="status_converting">Baixando e convertendo para MP3 %1$s… acompanhe na Central de Downloads.</string>
+
+    <string name="hint_mp3">MP3 no bitrate escolhido — o app confere o arquivo salvo e garante o bitrate (320 kbps CBR de verdade no arquivo). Fonte: o áudio original do YouTube, como no yt-dlp do PC</string>
+    <string name="hint_m4a">Original do YouTube (~128 kbps AAC) copiado sem reconversão — compatível com tudo</string>
+    <string name="hint_opus">Original do YouTube (~160 kbps Opus) sem reconversão — a qualidade máxima REAL que o site oferece</string>
+    <string name="hint_mp4">Qualidade livre de 360p a 4K — pediu 4K num vídeo de 1080p? Baixa em 1080p (o máximo que o vídeo tem) e a notificação confirma a resolução real. Até 1080p o arquivo sai em MP4 (abre em qualquer lugar); em 1440p/4K sai em MKV, o contêiner nativo dessas resoluções — sem re-codificar e sem arquivo corrompido</string>
+    <string name="hint_mp3_unavailable">Sem faixa de áudio neste vídeo</string>
+    <string name="hint_m4a_unavailable">Sem faixa M4A neste vídeo</string>
+    <string name="hint_opus_unavailable">Sem faixa Opus/WebM neste vídeo</string>
+    <string name="hint_mp4_unavailable">Sem vídeo disponível neste vídeo</string>
+    <string name="q_kbps">%1$s kbps</string>
+    <string name="q_default">%1$s (padrão)</string>
+
+    <string name="meta_line">%1$s · %2$s</string>
+
+    <string name="err_invalid_url">Link inválido. Cole a URL de um vídeo do YouTube.</string>
+    <string name="err_no_audio">Nenhuma faixa de áudio disponível para este vídeo.</string>
+    <string name="err_recaptcha">O YouTube pediu verificação anti-bot. Tente novamente em alguns minutos.</string>
+    <string name="err_bot_check">O YouTube pediu verificação anti-bot. O TuneGrab tentou renovar a sessão automaticamente — toque em Baixar de novo.</string>
+    <string name="err_bot_check_cooldown">O YouTube impôs um limite temporário de renovação de token neste IP. Aguarde 1–2 minutos sem tocar em nada e toque em Baixar de novo — insistir seguido piora o bloqueio.</string>
+    <string name="err_bot_check_reason">O YouTube bloqueou o acesso anônimo e a renovação do token interno falhou (%1$s). Aguarde um pouco e toque em Baixar de novo.</string>
+    <string name="err_blocked_403">O YouTube bloqueou este stream agora. Tente baixar novamente em alguns minutos.</string>
+    <string name="err_streams_blocked">O YouTube bloqueou os arquivos deste vídeo agora mesmo. O TuneGrab já renovou a sessão automaticamente — toque em Baixar de novo em alguns segundos.</string>
+    <string name="err_bot_check_dlp">O YouTube bloqueou TAMBÉM o motor de resgate neste vídeo — é bloqueio temporário da sua rede/IP. Troque de rede (Wi-Fi ↔ 4G/5G), espere alguns minutos e tente de novo.</string>
+    <string name="err_no_stream_play">Não achei nenhuma faixa reproduzível nesse vídeo :( Tenta tocar de novo ou baixa direto.</string>
+
+    <!-- Playlist (v0.13.0) -->
+    <string name="pl_fetching">Buscando a playlist…</string>
+    <string name="pl_empty">Essa playlist não tem vídeos acessíveis :(</string>
+    <string name="pl_title_fallback">Playlist do YouTube</string>
+    <string name="pl_count">%1$d vídeos</string>
+    <string name="pl_capped">primeiros %1$d</string>
+    <string name="pl_note">Cada vídeo entra na fila da Central de downloads — dá pra pausar ou cancelar um por um.</string>
+    <string name="pl_go">Baixar tudo</string>
+    <string name="pl_stop">Parar</string>
+    <string name="pl_close">Fechar</string>
+    <string name="pl_preparing_zero">Preparando a fila…</string>
+    <string name="pl_preparing">Preparando %1$d de %2$d… %3$s</string>
+    <string name="pl_done_all">Playlist na fila! 🎉 %1$d vídeos entraram</string>
+    <string name="pl_done_partial">Fila pronta: %1$d entraram · %2$d falharam</string>
+    <string name="pl_done_none">Nada entrou na fila :( — o YouTube travou tudo. Espera 1 minutinho e tenta de novo</string>
+    <string name="pl_play_error">Reproduzir é só pra vídeo único — playlist usa o botão Baixar</string>
+    <string name="pl_stopped">Parou no vídeo %1$d de %2$d (verificação do YouTube). O que já entrou segue baixando — tenta de novo em 1 minutinho.</string>
+    <string name="pl_q_best">Melhor disponível</string>
+    <string name="pl_q_small">Menor arquivo</string>
+
+    <!-- Biblioteca: seções (v0.13.0) -->
+    <string name="lib_section_own">Baixados pelo TuneGrab</string>
+    <string name="lib_section_others">Outras mídias do aparelho</string>
+    <string name="err_network">A conexão caiu no meio do download e o TuneGrab já tentou retomar. Verifique sua internet e tente de novo.</string>
+    <string name="err_unavailable">Vídeo indisponível, privado ou com restrição de idade.</string>
+    <string name="err_generic_short">Não foi possível buscar este vídeo.</string>
+    <string name="err_generic">Erro: %1$s</string>
+
+    <string name="crash_title">Ops, o TuneGrab fechou inesperadamente</string>
+    <string name="crash_subtitle">Copie o relatório abaixo e envie para o desenvolvedor — isso ajuda muito a corrigir o problema.</string>
+    <string name="crash_subtitle_error">Toque em \"Copiar erro\" e envie para o desenvolvedor — com isso o problema fica muito mais fácil de corrigir.</string>
+    <string name="crash_copy">Copiar erro</string>
+    <string name="crash_copied">Erro copiado ✔</string>
+
+    <string name="notif_channel_name">Downloads</string>
+    <string name="notif_channel_desc">Progresso dos downloads de áudio</string>
+    <string name="notif_downloading">Baixando %1$s</string>
+    <string name="notif_phase_download">Baixando</string>
+    <string name="notif_phase_convert">Processando arquivo</string>
+    <string name="notif_phase_save">Salvando arquivo</string>
+    <string name="notif_phase_engine_prepare">Preparando o motor de download (só na primeira vez)</string>
+    <string name="notif_phase_engine_update">Atualizando o motor de download (só na primeira vez)</string>
+    <string name="notif_phase_fallback">Plano A falhou — tentando o plano B</string>
+    <string name="notif_phase_fallback_720p">Plano A falhou — plano B (vídeo limitado a 720p nesta via)</string>
+    <string name="notif_done">Download concluído</string>
+    <string name="notif_quality_audio">Bitrate confirmado: %1$d kbps</string>
+    <string name="notif_quality_video_ok">Resolução confirmada: %1$dp</string>
+    <string name="notif_quality_video_lower">Pedido %1$dp — salvo em %2$dp (máximo desse vídeo)</string>
+    <string name="notif_failed">Falha no download</string>
+    <string name="notif_retry">conexão caiu — retomando (tentativa %1$d de %2$d)</string>
+    <string name="notif_paused_title">Download pausado</string>
+    <string name="notif_cancelled_title">Download cancelado</string>
+    <string name="notif_action_pause">Pausar</string>
+    <string name="notif_action_resume">Continuar</string>
+    <string name="notif_action_cancel">Cancelar</string>
+    <string name="notif_view_details">Ver detalhes</string>
+    <string name="err_details_title">Detalhes do erro</string>
+
+    <!-- Configurações -->
+    <string name="settings_title">Configurações</string>
+    <string name="settings_sub">Padrão de qualidade para cada formato. Você ainda pode trocar na hora de baixar.</string>
+
+    <!-- Configurações por categoria (v0.19.9 — estilo YouTube LITERAL:
+         a lista principal são PASTAS clicáveis; tocar abre a página só
+         daquele assunto, com botão de voltar no cabeçalho) -->
+    <string name="set_cat_downloads">Downloads</string>
+    <string name="set_cat_audio">Áudio</string>
+    <string name="set_cat_video">Vídeo</string>
+    <string name="set_cat_player">Player</string>
+    <string name="set_cat_youtube">YouTube</string>
+    <string name="set_cat_help">Ajuda</string>
+    <string name="set_cat_update">Atualização</string>
+    <string name="set_cat_about">Sobre</string>
+    <!-- Subtítulos das pastas na lista principal -->
+    <string name="set_sub_cat_downloads">Pasta onde suas músicas e vídeos são salvos</string>
+    <string name="set_sub_cat_audio">Formato e qualidade das músicas</string>
+    <string name="set_sub_cat_video">Qualidade padrão dos vídeos</string>
+    <string name="set_sub_cat_player">Barrinhas de áudio no player</string>
+    <string name="set_sub_cat_help">Tutorial e como usar</string>
+    <string name="set_sub_cat_update">Verificar se saiu versão nova</string>
+    <string name="set_sub_cat_about">Versão, motores e créditos</string>
+
+    <string name="set_row_mp3">Qualidade do MP3</string>
+    <string name="set_row_m4a">Qualidade do M4A</string>
+    <string name="set_row_video">Qualidade dos vídeos</string>
+    <string name="set_row_visualizer">Barrinhas de áudio no player</string>
+    <string name="set_sub_visualizer">Espectro real do som tocando, espelhado como mesa de DJ</string>
+
+    <!-- v0.19.10: opções INLINE (bolinha na própria linha — toque escolhe
+         e salva na hora, sem diálogo) + aviso de dados móveis -->
+    <string name="q_sub_320">A melhor — arquivo maior</string>
+    <string name="q_sub_256">Ótima</string>
+    <string name="q_sub_192">Equilibrada</string>
+    <string name="q_sub_128">Pra economizar espaço</string>
+    <string name="q_sub_best">Como o YouTube entrega, sem conversão</string>
+    <string name="q_sub_small">Menos espaço no celular</string>
+    <string name="q_video_1440">1440p</string>
+    <string name="q_video_360">360p</string>
+    <string name="v_sub_2160">A mais alta — sai em MKV</string>
+    <string name="v_sub_1440">Bem alta — sai em MKV</string>
+    <string name="v_sub_1080">A mais pedida — sai em MP4</string>
+    <string name="v_sub_720">Sai em MP4</string>
+    <string name="v_sub_480">Sai em MP4, gasta menos espaço</string>
+    <string name="v_sub_360">A menor de todas</string>
+    <string name="set_video_note">O vídeo não tem a qualidade escolhida? O TuneGrab baixa na mais próxima que existir.</string>
+    <string name="set_row_metered">Avisar antes de baixar em 4G/5G</string>
+    <string name="set_sub_metered">Pergunta antes de gastar seus dados móveis</string>
+    <string name="dl_metered_title">Baixar usando seus dados?</string>
+    <string name="dl_metered_msg">Você não está no Wi-Fi. Esse download vai gastar dados móveis.</string>
+    <string name="dl_metered_yes">Baixar assim mesmo</string>
+    <string name="set_row_account">Conta do YouTube</string>
+    <string name="set_sub_account_on">Conectada ✓ — os downloads usam a sua sessão (menos anti-bot)</string>
+    <string name="set_sub_account_off">Não conectada — toque pra entrar pela aba YouTube</string>
+    <string name="set_sub_update">Toque pra verificar se saiu versão nova</string>
+    <string name="acc_toast_on">Conta do YouTube conectada! Os downloads agora usam a sua sessão.</string>
+    <string name="acc_toast_off">Sessão do YouTube encerrada — o app voltou ao acesso anônimo.</string>
+    <string name="acc_dialog_title">Conta do YouTube</string>
+    <string name="acc_dialog_msg">A sessão fica salva SÓ dentro do TuneGrab — nunca é enviada a ninguém. Com a conta conectada, o YouTube bloqueia menos os downloads.</string>
+    <string name="acc_open_tab">Abrir aba YouTube</string>
+    <string name="acc_disconnect">Desconectar</string>
+    <string name="acc_hint">Entre na sua conta pela aba YouTube — o TuneGrab detecta o login sozinho.</string>
+
+    <!-- Vídeo: qualidade padrão do seletor (v0.19.3) -->
+    <string name="q_video_2160">4K (2160p)</string>
+    <string name="q_video_1080">1080p (Full HD)</string>
+    <string name="q_video_720">720p (HD)</string>
+    <string name="q_video_480">480p (leve)</string>
+    <!-- Atualização manual + Sobre (v0.19.3) -->
+    <string name="update_check_btn">Verificar atualizações</string>
+    <string name="update_checking">Verificando…</string>
+    <string name="update_uptodate">Você já está na versão mais recente (v%1$s)</string>
+    <string name="update_available">Nova versão v%1$s disponível! Abrindo o Início…</string>
+    <string name="about_version_fmt">TuneGrab v%1$s</string>
+    <string name="about_made_by">feito por Micael San</string>
+    <string name="about_engines">Motor de download: yt-dlp + NewPipe Extractor · Player: ExoPlayer</string>
+
+    <string name="q_mp3_320">320 kbps</string>
+    <string name="q_mp3_256">256 kbps</string>
+    <string name="q_mp3_192">192 kbps</string>
+    <string name="q_mp3_128">128 kbps</string>
+    <string name="q_best">Melhor disponível</string>
+    <string name="q_smallest">Menor arquivo</string>
+
+    <string name="tos_note">Use apenas com conteúdo próprio, Creative Commons ou quando permitido. Respeite os Termos de Serviço do YouTube e os direitos autorais.</string>
+
+    <!-- Navegação inferior -->
+    <string name="nav_home">Início</string>
+    <string name="nav_youtube">YouTube</string>
+    <!-- Botão flutuante do navegador do YouTube (v0.19.2) -->
+    <string name="yt_grab">Baixar</string>
+    <string name="nav_downloads">Downloads</string>
+    <string name="nav_favorites">Favoritos</string>
+    <string name="nav_library">Biblioteca</string>
+    <string name="nav_settings">Config.</string>
+
+    <!-- Favoritos (v0.22.11 · coração em todo lugar v0.22.12) -->
+    <string name="fav_title">Favoritos</string>
+    <string name="fav_count_one">1 música salva</string>
+    <string name="fav_count_many">%d músicas salvas</string>
+    <string name="fav_empty_title">Nenhum favorito ainda</string>
+    <string name="fav_empty_body">Toque no coração de uma música — no player ou na Biblioteca — pra guardar ela aqui.</string>
+    <string name="fav_removed">Saiu dos favoritos</string>
+    <string name="fav_added">Salvo nos favoritos</string>
+    <string name="fav_on_device">salva no aparelho</string>
+    <string name="fav_play_desc">Ouvir agora</string>
+    <string name="fav_download_desc">Baixar de novo</string>
+    <string name="fav_remove_desc">Tirar dos favoritos</string>
+    <string name="player_fav">Favorito</string>
+    <string name="player_fav_desc">Salvar nos favoritos</string>
+
+    <!-- Central de downloads -->
+    <string name="dl_title">Central de downloads</string>
+    <string name="dl_empty_title">Nenhum download ainda :(</string>
+    <string name="dl_empty_sub">Os downloads aparecem aqui. Cole um link no Início e baixe sua primeira música 🎵</string>
+    <string name="dl_empty_cta">Baixar primeira música</string>
+    <string name="dl_empty_filter_title">Nada neste filtro</string>
+    <string name="dl_empty_filter_sub">Troca o filtro aí em cima pra ver os outros downloads.</string>
+    <string name="dl_filter_all">Tudo</string>
+    <string name="dl_filter_audio">Músicas</string>
+    <string name="dl_filter_video">Vídeos</string>
+    <string name="dl_clear">Limpar finalizados</string>
+    <!-- v0.19.15: o botão voltou a ser só LIMPEZA da lista (não apaga arquivo)
+         — exclusão de verdade é a lixeira do card / Biblioteca -->
+    <string name="dl_clear_title">Limpar a lista de downloads?</string>
+    <string name="dl_clear_msg">Os downloads concluídos, com falha ou cancelados saem da lista. Nenhum arquivo é apagado — eles continuam salvos no aparelho. Pra excluir de verdade, use a lixeira no card ou na Biblioteca.</string>
+    <string name="dl_clear_yes">Limpar</string>
+    <string name="dl_clear_done_list">Lista limpa ✓ — os arquivos continuam salvos</string>
+    <string name="lib_delete">Apagar mídia</string>
+    <string name="dl_preparing">Preparando…</string>
+    <string name="dl_running_pct">%1$d%%</string>
+    <string name="dl_running_pct_speed">%1$d%% · %2$s</string>
+    <string name="dl_state_done">Concluído ✓</string>
+    <string name="dl_state_failed">Falhou</string>
+    <string name="dl_state_failed_reason">Falhou — %1$s</string>
+    <string name="dl_error_copied">Detalhes do erro copiados ✓</string>
+    <string name="cd_copy">Copiar detalhes do erro</string>
+    <string name="dl_state_paused">Pausado</string>
+    <string name="dl_state_cancelled">Cancelado</string>
+    <string name="dl_queued">Na fila</string>
+    <string name="dl_resuming">Retomando…</string>
+
+    <!-- Biblioteca (músicas e vídeos separados) -->
+    <string name="lib_title">Biblioteca</string>
+    <string name="lib_filter_audio">Músicas</string>
+    <string name="lib_filter_video">Vídeos</string>
+    <string name="lib_chip_count">%1$s · %2$d</string>
+    <string name="lib_empty_audio">Nenhuma música baixada ainda.\nOs arquivos que você baixar aparecem aqui.</string>
+    <string name="lib_folder_default">Salvando em: Downloads/TuneGrab</string>
+    <string name="lib_folder_custom">Salvando em: %1$s</string>
+    <string name="lib_folder_unknown">pasta escolhida</string>
+    <string name="lib_permission_banner">Toque para achar TODAS as músicas do aparelho — inclusive as que estavam em pasta própria, mesmo depois de atualizar ou reinstalar o app</string>
+    <string name="lib_meta_line">%1$s · %2$s</string>
+    <string name="lib_err_open">Não foi possível abrir este arquivo.</string>
+    <string name="lib_err_delete">Não foi possível apagar este arquivo.</string>
+    <string name="lib_deleted">Apagado ✓</string>
+
+    <!-- Verificação dupla antes de apagar (v0.10.8) -->
+    <string name="lib_delete_title">Apagar arquivo?</string>
+    <string name="lib_delete_msg">“%1$s” será apagado definitivamente. Essa ação não pode ser desfeita.</string>
+    <string name="lib_delete_yes">Apagar</string>
+
+    <!-- Seleção múltipla na Biblioteca (v0.19.7): segurar na faixa entra no
+         modo de marcar; a lixeira da barra apaga todas de uma vez -->
+    <string name="cd_sel_close">Sair da seleção</string>
+    <string name="lib_sel_all">Todos</string>
+    <!-- Menu dos três pontinhos do card da Biblioteca (v0.22.13) -->
+    <string name="lib_menu_desc">Mais opções</string>
+    <string name="lib_menu_fav_add">Favoritar</string>
+    <string name="lib_menu_fav_remove">Tirar dos favoritos</string>
+    <string name="cd_sel_delete">Apagar as selecionadas</string>
+    <plurals name="lib_sel_count">
+        <item quantity="one">%1$d selecionada</item>
+        <item quantity="other">%1$d selecionadas</item>
+    </plurals>
+    <plurals name="lib_sel_delete_title">
+        <item quantity="one">Apagar %1$d arquivo?</item>
+        <item quantity="other">Apagar %1$d arquivos?</item>
+    </plurals>
+    <string name="lib_sel_delete_msg">Os arquivos selecionados serão apagados definitivamente. Essa ação não pode ser desfeita.</string>
+    <plurals name="lib_sel_deleted">
+        <item quantity="one">%1$d arquivo apagado ✓</item>
+        <item quantity="other">%1$d arquivos apagados ✓</item>
+    </plurals>
+    <string name="lib_sel_partial">Apaguei %1$d de %2$d — os que restaram são de outros apps e pedem confirmação própria (apague um por um)</string>
+    <string name="cd_refresh">Atualizar</string>
+    <string name="cd_share">Compartilhar</string>
+    <string name="cd_delete">Apagar</string>
+
+    <!-- PASTAS DE VERDADE na Biblioteca (v0.22.0): criar, navegar e mover
+         músicas pra dentro/fora — tudo dentro da pasta TuneGrab -->
+    <string name="lib_folders_section">Pastas</string>
+    <string name="lib_folder_empty">pasta vazia</string>
+    <string name="lib_folder_items_one">1 item</string>
+    <string name="lib_folder_items">%1$d itens</string>
+    <string name="lib_root_name">TuneGrab</string>
+    <string name="lib_up_meta">Toque pra voltar</string>
+    <string name="lib_empty_folder_view">Pasta vazia.\nMova músicas pra cá (botão de pasta na faixa) ou crie uma subpasta pelo botão de pasta com + no topo.</string>
+    <string name="lib_new_folder">Nova pasta</string>
+    <string name="lib_new_folder_title">Nova pasta</string>
+    <string name="lib_new_folder_msg">A pasta nasce DE VERDADE dentro da pasta do TuneGrab — aparece no gerenciador de arquivos do aparelho também.</string>
+    <string name="lib_new_folder_hint">Nome da pasta</string>
+    <string name="lib_new_folder_ok">Criar</string>
+    <string name="lib_folder_created">Pasta criada ✓</string>
+    <string name="lib_err_folder_name">Escreve um nome pra pasta (sem “/”)</string>
+    <!-- v0.22.4: pasta de nome em branco (criada fora do app) ganha rótulo -->
+    <string name="lib_folder_blank">(pasta sem nome)</string>
+    <!-- v0.22.5: BUSCA da biblioteca — campo minimalista no topo; acha pasta
+         e faixa em qualquer lugar, sem acento e sem maiúscula -->
+    <string name="lib_search_hint">Buscar músicas e pastas</string>
+    <string name="lib_search_clear">Limpar busca</string>
+    <string name="lib_search_empty">Nada encontrado.\nTenta outro nome — acento e maiúscula não contam.</string>
+    <string name="lib_err_folder_exists">Já existe uma pasta com esse nome aqui</string>
+    <string name="lib_err_folder_create">Não foi possível criar a pasta.</string>
+    <!-- v0.22.3: renomear e apagar pastas (micaelsan: "eu não consigo
+         deletar pastas ou renomear elas") -->
+    <string name="lib_folder_more">Opções da pasta</string>
+    <!-- v0.22.6: a pasta também muda de lugar (mesmo modo do mover de faixas) -->
+    <string name="lib_folder_opt_move">Mover pasta</string>
+    <string name="lib_folder_opt_rename">Renomear</string>
+    <string name="lib_folder_opt_delete">Apagar pasta</string>
+    <string name="lib_folder_rename_title">Renomear pasta</string>
+    <string name="lib_folder_rename_ok">Renomear</string>
+    <string name="lib_folder_renamed">Pasta renomeada ✓</string>
+    <string name="lib_err_folder_rename">Não foi possível renomear a pasta.</string>
+    <!-- v0.22.6: mover pasta de lugar -->
+    <string name="lib_folder_moved">Pasta movida ✓</string>
+    <string name="lib_err_folder_move">Não foi possível mover a pasta.</string>
+    <string name="lib_folder_delete_title">Apagar pasta</string>
+    <string name="lib_folder_delete_empty">Apagar a pasta “%1$s” vazia?</string>
+    <string name="lib_folder_deleted">Pasta apagada ✓</string>
+    <string name="lib_err_folder_delete">Não foi possível apagar a pasta.</string>
+    <plurals name="lib_folder_delete_items">
+        <item quantity="one">Apagar “%1$s” e o %2$d item que mora dentro dela?\nSubpastas e tudo que tem nelas vai junto.</item>
+        <item quantity="other">Apagar “%1$s” e os %2$d itens que moram dentro dela?\nSubpastas e tudo que tem nelas vai junto.</item>
+    </plurals>
+    <plurals name="lib_folder_delete_left">
+        <item quantity="one">A pasta foi, mas %1$d item ficou pra trás (não é do TuneGrab)</item>
+        <item quantity="other">A pasta foi, mas %1$d itens ficaram pra trás (não são do TuneGrab)</item>
+    </plurals>
+    <!-- v0.22.6: MOVER IGUAL GERENCIADOR DE ARQUIVOS — acabou o diálogo:
+         navega até a pasta e confirma em "Mover aqui"; PASTA também muda
+         de lugar (menos pra dentro de si mesma) -->
+    <string name="lib_move_to">Mover para: %1$s</string>
+    <string name="lib_move_here">Mover aqui</string>
+    <string name="lib_move_blocked">Não dá pra mover a pasta pra dentro dela mesma</string>
+    <string name="lib_move_none">O que você marcou não é do TuneGrab — só o que o app baixou pode ser movido</string>
+    <string name="lib_moved_one">Movido ✓</string>
+    <string name="lib_moved_many">%1$d movidos ✓</string>
+    <string name="lib_move_partial">Movei %1$d de %2$d — o resto não pôde ser movido</string>
+    <string name="lib_move_same">Já está nessa pasta</string>
+    <string name="lib_err_move">Não foi possível mover — pode já existir arquivo com o mesmo nome no destino.</string>
+    <string name="lib_err_move_one">Não foi possível mover este arquivo.</string>
+    <string name="cd_move">Mover pra pasta</string>
+    <string name="cd_move_sel">Mover selecionadas</string>
+
+    <!-- Pasta de download -->
+    <string name="settings_folder">Pasta de download</string>
+    <string name="settings_folder_default">Padrão: Downloads/TuneGrab</string>
+    <string name="settings_folder_custom">Personalizada: %1$s</string>
+    <string name="settings_reset_folder">Voltar ao padrão</string>
+
+    <!-- Player -->
+    <string name="player_play">Reproduzir</string>
+    <string name="player_pause">Pausar</string>
+    <string name="player_previous">Faixa anterior</string>
+    <string name="player_next">Próxima faixa</string>
+    <string name="player_close">Fechar</string>
+    <string name="player_err">Não foi possível reproduzir este arquivo.</string>
+    <string name="player_err_stream">Não deu pra tocar esse vídeo. Tenta de novo em instantes 🙏</string>
+    <string name="player_buffering">Carregando…</string>
+    <string name="player_fullscreen">Tela cheia</string>
+    <string name="player_exit_fullscreen">Sair da tela cheia</string>
+
+    <!-- GERADOR DE LETRA (v0.22.7, pedido do autor: "Faça o gerador de
+         letra"): botão no player + estados da tela da letra. A fonte é
+         pública e grátis (LRCLIB) — o crédito fica no pé da tela -->
+    <string name="player_lyrics">Letra</string>
+    <string name="player_lyrics_desc">Ver a letra da música</string>
+    <string name="lyrics_back">Voltar</string>
+    <string name="lyrics_searching">Procurando a letra…</string>
+    <string name="lyrics_not_found">Não achamos a letra dessa faixa.\nTenta outra música ou baixa ela com o nome certinho!</string>
+    <string name="lyrics_error">Não deu pra buscar a letra agora.\nConfere a internet e tenta de novo.</string>
+    <string name="lyrics_retry">Tentar de novo</string>
+    <string name="lyrics_instrumental">Essa faixa é instrumental — é só curtir a música!</string>
+    <string name="lyrics_credit">Letras: LRCLIB</string>
+    <string name="notif_channel_playback">Reprodução</string>
+    <string name="notif_channel_playback_desc">Controles da música que está tocando em segundo plano</string>
+    <string name="dl_not_found">Arquivo não encontrado para compartilhar — confira na aba Biblioteca.</string>
+
+    <!-- Atualização (v0.19.9: o card vive no INÍCIO; toque abre o que
+         veio de novo e de lá a pessoa atualiza — zero links externos) -->
+    <string name="upd_available">TuneGrab %s disponível 🎉</string>
+    <string name="upd_no_notes">Sem notas de versão.</string>
+    <string name="cd_close_update">Dispensar aviso de atualização</string>
+    <string name="upd_tap_see">Toque pra ver o que veio de novo</string>
+    <string name="upd_tap_install">Toque pra instalar a atualização</string>
+    <string name="upd_what_title">O que veio de novo?</string>
+    <string name="upd_what_later">Mais tarde</string>
+    <string name="upd_cta_update">Atualizar agora</string>
+    <string name="cd_back">Voltar</string>
+
+    <!-- Atualização (Fase 2: baixar e instalar dentro do app) -->
+    <string name="upd_downloading">Baixando… %1$d%%</string>
+    <string name="upd_ready_toast">Atualização baixada! Toque no aviso pra instalar ✓</string>
+    <string name="upd_err_download">Falha ao baixar a atualização. Tenta de novo.</string>
+    <string name="upd_err_install">Não foi possível iniciar a instalação.</string>
+    <string name="upd_need_permission">Autorize o TuneGrab a instalar apps (Ajustes) e toque em Instalar de novo.</string>
+    <string name="upd_metered_title">Baixar sem Wi-Fi?</string>
+    <string name="upd_metered_msg">A atualização (%1$s) será baixada usando a rede móvel. Continuar?</string>
+    <string name="upd_metered_yes">Baixar mesmo assim</string>
+
+    <!-- Tutorial de primeira abertura (v0.19.6): 5 páginas bem explicadas —
+         Bem-vindo · Cole o link · Aba YouTube · Central · Biblioteca -->
+    <string name="onb_skip">Pular</string>
+    <string name="onb_next">Próximo</string>
+    <string name="onb_start">Começar a usar ♪</string>
+    <string name="onb1_title">Bem-vindo ao TuneGrab!</string>
+    <string name="onb1_body">Este é o seu baixador de músicas e vídeos do YouTube: rápido, sem anúncios e salvando tudo direto no aparelho. Siga este tour — ele te mostra o caminho completo em 5 passos.</string>
+    <string name="onb2_title">Cole o link e escolha</string>
+    <string name="onb2_body">Copie o link de qualquer vídeo do YouTube e cole no campo da aba Início. O app reconhece sozinho se é música ou playlist e abre as qualidades: áudio (M4A, Opus ou MP3) pra ouvir, ou vídeo (até 4K) pra assistir.</string>
+    <string name="onb3_title">Baixe direto do YouTube</string>
+    <string name="onb3_body">Na aba YouTube você navega no site por dentro do app — até logado na sua conta. Achou o vídeo? Toque no botão Baixar que aparece na tela: o link vai sozinho pro download, sem copiar e colar nada.</string>
+    <string name="onb4_title">Acompanhe na Central</string>
+    <string name="onb4_body">Todo download aparece na Central de Downloads com progresso ao vivo: pause, cancele ou toque na notificação pra voltar direto pra lá. Quando o arquivo termina, ele já entra na sua Biblioteca.</string>
+    <string name="onb5_title">Suas músicas num só lugar</string>
+    <string name="onb5_body">Tudo que você baixar fica na aba Biblioteca: toque em qualquer faixa pra ouvir no player completo, com capa e visualizador. Agora é só colar seu primeiro link — boa música!</string>
+
+    <!-- Config. > Como usar (v0.19.6): reabrir o tutorial -->
+    <string name="settings_tutorial_btn">Ver tutorial de novo</string>
+    <string name="settings_tutorial_hint">O mesmo guia que aparece na primeira vez que você abre o app.</string>
+
+    <!-- Reprodução automática (v0.19.21, O REGENTE): ESTA linha é o padrão
+         que manda — o player abre com ela e mudar aqui vale na hora. O
+         switch do player é só da sessão e NUNCA altera esta pref. O " ? "
+         abre o diálogo explicando -->
+    <string name="set_row_autoplay">Reprodução automática</string>
+    <string name="set_sub_autoplay">O padrão que o player usa a cada abertura — e mudou aqui, vale na hora. Ligada: quando a música acaba, a próxima da fila toca sozinha. Desligada: a música para quando acabar.</string>
+    <string name="set_autoplay_help">O que é reprodução automática?</string>
+    <string name="set_autoplay_help_title">O que é reprodução automática?</string>
+    <string name="set_autoplay_help_msg">Aqui é O REGENTE: o valor desta linha é o padrão que o player usa toda vez que abre, e mudar aqui vale na hora — até pra fila que está tocando agora.
+
+Ligada: quando uma música da fila acaba, a próxima toca sozinha, estilo YouTube. Chegando na última, o player para. Desligada: a música toca até o fim e para — nada pula sozinho; pra ouvir a outra, é só tocar no botão de próxima.
+
+O switch que existe no player de música é outro caso: ele muda só a reprodução daquele momento, e quando o player fecha tudo volta pro padrão daqui — mexer lá não muda nada nas Configurações. Os botões de próxima/anterior seguem funcionando sempre.</string>
+    <string name="set_autoplay_help_ok">Entendi</string>
+
+    <!-- Trava de acesso (v0.20.0): o app é por convite — a senha que o autor
+         distribui (derivada do nome completo de quem vai usar) libera o
+         aparelho; na v0.21.0 cada senha pode nascer PRESA a um aparelho
+         (código do ANDROID_ID, mostrado abaixo do campo). A checagem é
+         remota (lista de hashes no próprio repo) e a 1ª liberação pede
+         internet. Errou, tenta de novo na hora — sem punição. -->
+    <string name="lock_sub">Este app é por convite. Digite a senha que você recebeu pra liberar o uso — cada senha fica presa em um único aparelho.</string>
+    <string name="lock_hint">Senha</string>
+    <string name="lock_btn">Liberar o app ♪</string>
+    <string name="lock_ok">Senha aceita ✓ liberando o app…</string>
+    <string name="lock_err_empty">Digite a senha que você recebeu.</string>
+    <string name="lock_err_wrong">Senha não reconhecida — pode ter vindo com erro de digitação ou ter sido trocada. Confere aí e tenta de novo.</string>
+    <string name="lock_err_wrong_device">Essa senha existe, mas pertence a OUTRO aparelho — cada senha fica presa no celular de quem pediu. Confere se este é o aparelho certo.</string>
+    <string name="lock_err_offline">Sem internet: a primeira liberação precisa de conexão. Verifica o Wi-Fi ou os dados e tenta de novo.</string>
+    <string name="lock_err_noactive">Nenhuma senha ativa no momento. Fala com o Micael pra receber a sua.</string>
+    <string name="lock_err_generic">Não deu pra verificar a senha agora. Tenta de novo em instantes.</string>
+    <string name="lock_footer">Não tem senha? Manda seu nome completo e o código deste aparelho pro Micael.</string>
+    <string name="lock_device_label">Código deste aparelho</string>
+    <string name="lock_device_copy_hint">toque pra copiar</string>
+    <string name="lock_device_copied">Código copiado ✓ manda ele junto com o seu nome pro Micael</string>
+</resources>

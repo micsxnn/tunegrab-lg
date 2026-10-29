@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fundo dos bottom sheets (Liquid Glass v0.23.0): corpo escuro quase
+     opaco com o topo mais claro (a luz assenta), cantos superiores em
+     squircle simulado (24dp) e hairline branco no fio de cima — o vidro
+     do iOS quando a sheet cobre a tela. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="270"
+        android:startColor="#26FFFFFF"
+        android:centerColor="#F0111113"
+        android:endColor="#E80D0D0F" />
+    <corners
+        android:topLeftRadius="24dp"
+        android:topRightRadius="24dp" />
+    <stroke
+        android:width="1px"
+        android:color="#24FFFFFF" />
+</shape>
