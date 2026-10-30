@@ -63,7 +63,7 @@
             android:paddingStart="12dp"
             android:paddingTop="4dp"
             android:paddingEnd="12dp"
-            android:paddingBottom="12dp"
+            android:paddingBottom="112dp"
             android:scrollbars="vertical" />
 
         <!-- Estado vazio: um coração apagado e o convite — o caminho pra

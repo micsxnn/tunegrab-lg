@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Trilha do scrubber estilo iOS Music (v0.23.1-lg): fina 4dp, cápsula,
+     resto em branco 15%, trecho tocado em branco quase cheio -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@android:id/background"
+        android:height="4dp"
+        android:gravity="center_vertical">
+        <shape android:shape="rectangle">
+            <corners android:radius="2dp" />
+            <solid android:color="#26FFFFFF" />
+        </shape>
+    </item>
+    <item
+        android:id="@android:id/progress"
+        android:height="4dp"
+        android:gravity="center_vertical">
+        <clip>
+            <shape android:shape="rectangle">
+                <corners android:radius="2dp" />
+                <solid android:color="#F2F5F5F7" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

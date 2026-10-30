@@ -1,278 +1,325 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- NOW PLAYING iOS 26 (tunegrab-lg v0.23.1-lg): o player clona a estrutura
+     do Apple Music no iOS 26 — ambiente vivo da capa (AmbientBackdrop),
+     topo claro/base escura, e os controles FLUTUANDO num painel de Liquid
+     Glass de verdade (dev.liquidglass.view.LiquidGlassView, com refração de
+     borda, aberração cromática e rim especular na API 33+; blur na 31+;
+     scrim+rim em tudo que é mais velho).
+
+     Regra do material: o vidro NUNCA dentro do provider — os 3 vidros
+     (painel inferior + círculo do fechar + círculo do coração) são irmãos
+     DE CIMA do LiquidGlassProviderLayout e bebem do mesmo backdrop. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000">
 
-    <com.tunegrab.app.video.FitVideoView
-        android:id="@+id/videoView"
+    <!-- ======================= BACKDROP (o que o vidro refrata) ============ -->
+    <dev.liquidglass.view.LiquidGlassProviderLayout
+        android:id="@+id/lgProvider"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+        android:layout_height="match_parent">
 
-    <!-- Player HD (v0.17.0): reprodução DASH do play do Início — faixa de
-         vídeo (até 1080p, video-only) + faixa de áudio separadas, MERGIDAS
-         pelo ExoPlayer (Media3). O FitVideoView acima segue nos arquivos
-         LOCAIS da Biblioteca (MediaPlayer). resize_mode=fit mantém o aspect
-         ratio em qualquer tela/orientação; show_buffering gira o spinner -->
-    <androidx.media3.ui.PlayerView
-        android:id="@+id/playerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        app:resize_mode="fit"
-        app:show_buffering="always"
-        app:use_controller="true" />
-
-    <!-- Controles de ÁUDIO — estilo minimalista da referência (v0.18.8):
-         cartão de arte grande com cantos bem redondos, waveform fina do som
-         REAL, progresso fino, botão de play circular CHEIO e slider de
-         volume — tudo na paleta dourada do app -->
-    <LinearLayout
-        android:id="@+id/audioControls"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="24dp"
-        android:visibility="gone">
-
-        <!-- RETÂNGULO 16:9 DE LARGURA CHEIA (v0.22.14, pedido do autor:
-             "em vez de um viewer quadrado, um retângulo com tamanho perfeito
-             pra caber só as thumbs do YouTube"): a ALTURA do cartão é
-             calculada em código (applyArtRatio) = largura × 9/16 — a
-             proporção EXATA da thumbnail que o yt-dlp embute — então a
-             imagem encaixa SEM SOBRA nenhuma: nada de barra dourada em
-             cima/embaixo (o que sobrava do quadrado 220dp com fitCenter).
-             centerCrop: no retângulo 16:9 a thumb 16:9 não é recortada EM
-             NADA, e capa quadrada de álbum cobre o retângulo inteiro, no
-             espírito do modelo antigo. clipToOutline mantém o contorno
-             arredondado do bg_album_art. Sem capa: o ícone. -->
-        <FrameLayout
-            android:id="@+id/artCard"
+        <com.tunegrab.app.video.FitVideoView
+            android:id="@+id/videoView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/imgArt"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_album_art"
-                android:contentDescription="@null"
-                android:scaleType="centerCrop" />
-
-            <ImageView
-                android:id="@+id/imgArtIcon"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_music_note"
-                app:tint="#FFFFFF" />
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="2"
-            android:textColor="@color/on_background"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <!-- GERADOR DE LETRA (v0.22.7, pedido do autor): pastilha "Letra" —
-             abre a letra da faixa na tela inteira (sincronizada quando
-             existe: a linha acende no tempo do som e a tela anda sozinha) -->
-        <TextView
-            android:id="@+id/btnLyrics"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:background="@drawable/bg_lyrics_pill"
-            android:contentDescription="@string/player_lyrics_desc"
-            android:drawablePadding="7dp"
-            android:drawableTint="@color/primary"
-            android:paddingStart="18dp"
-            android:paddingTop="9dp"
-            android:paddingEnd="18dp"
-            android:paddingBottom="9dp"
-            android:text="@string/player_lyrics"
-            android:textColor="@color/on_background"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_lyrics" />
-
-        <!-- Barrinhas de DJ (v0.18.9): espectro REAL do áudio que está
-             tocando — o SpectrumProcessor espia o PCM dentro do próprio
-             player (SEM permissão nenhuma). Grave no centro, agudo nas
-             pontas, espelhado e SEM emenda. Faixa alta: as barras sobem
-             de verdade na pancada -->
-        <com.tunegrab.app.VisualizerView
-            android:id="@+id/visualizer"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginTop="18dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:visibility="gone" />
 
-        <SeekBar
-            android:id="@+id/seekBar"
+        <!-- Player HD (v0.17.0): DASH do play do Início, intocado -->
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/playerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:resize_mode="fit"
+            app:show_buffering="always"
+            app:use_controller="true" />
+
+        <!-- AMBIENTE (v0.23.1-lg): a capa estourada em blur+saturação atrás
+             de tudo — o "glow" do Now Playing do Apple Music -->
+        <com.tunegrab.app.lg.AmbientBackdrop
+            android:id="@+id/ambientBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- Véu: luz caindo do topo, base escurecendo pro vidro -->
+        <View
+            android:id="@+id/ambientScrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/lg_ambient_scrim" />
+
+        <!-- Bloco SUPERIOR (arte + título + letra + espectro): acima do
+             vidro, direto sobre o ambiente — igual ao Music, onde arte e
+             título ficam NO ambiente e os controles é que flutuam -->
+        <LinearLayout
+            android:id="@+id/audioControls"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:progressBackgroundTint="@color/stroke"
-            android:progressTint="@color/primary"
-            android:thumbTint="@color/primary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvPosition"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tvDuration"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Transporte (v0.19.0): ANTERIOR — play — PRÓXIMA (pedido do
-             autor). Os botões laterais conversam com a fila da Biblioteca
-             que o PlaybackService guarda; sem fila, ficam apagados.
-             O slider de volume saiu (pedido: "tira aquilo de áudio") -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/btnPrev"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/player_previous"
-                android:padding="14dp"
-                android:src="@drawable/ic_skip_previous"
-                app:tint="@color/on_background" />
-
-            <!-- Play/PAUSE: disco circular cheio (estilo da referência), ícone
-                 escuro por cima do dourado -->
-            <ImageButton
-                android:id="@+id/btnPlay"
-                android:layout_width="76dp"
-                android:layout_height="76dp"
-                android:layout_marginStart="22dp"
-                android:layout_marginEnd="22dp"
-                android:background="@drawable/bg_play_circle"
-                android:contentDescription="@string/player_play"
-                android:padding="21dp"
-                android:src="@drawable/ic_play"
-                app:tint="@color/background" />
-
-            <ImageButton
-                android:id="@+id/btnNext"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/player_next"
-                android:padding="14dp"
-                android:src="@drawable/ic_skip_next"
-                app:tint="@color/on_background" />
-        </LinearLayout>
-
-        <!-- REPRODUÇÃO AUTOMÁTICA (v0.19.18, pedido do autor: "deve estar no
-             player também"): linha PRÓPRIA embaixo do transporte, estilo
-             YouTube Music — nome + switch. O botão da v0.19.16 apertava a
-             linha de transporte inteira (empurrava os ícones); aqui NADA se
-             move. Desde a v0.19.21 vive em TODO player de música (Biblioteca,
-             Central e cartão — o tick revela), e o switch é SÓ DA SESSÃO: não
-             escreve na pref das Configurações (o regente), vale enquanto o
-             player está aberto e morre quando ele fecha. LIGADA: a próxima
-             toca sozinha; DESLIGADA: a música para quando acaba -->
-        <LinearLayout
-            android:id="@+id/rowAutoplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingTop="44dp"
+            android:paddingEnd="24dp"
             android:visibility="gone">
 
+            <!-- RETÂNGULO 16:9 de largura cheia (v0.22.14, pedido do autor)
+                 — altura = largura × 9/16 calculada em código (applyArtRatio);
+                 agora com cantos 18dp + hairline especular (lg_album_art) -->
+            <FrameLayout
+                android:id="@+id/artCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgArt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/lg_album_art"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/imgArtIcon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_music_note"
+                    app:tint="#FFFFFF" />
+            </FrameLayout>
+
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/set_row_autoplay"
-                android:textColor="@color/on_surface_variant"
-                android:textSize="13sp" />
+                android:layout_marginTop="20dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="2"
+                android:shadowColor="#99000000"
+                android:shadowDy="2"
+                android:shadowRadius="10"
+                android:textColor="@color/on_background"
+                android:textSize="19sp"
+                android:textStyle="bold" />
 
-            <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/swAutoplay"
+            <!-- Pastilha "Letra" em cápsula de vidro (v0.22.7) -->
+            <TextView
+                android:id="@+id/btnLyrics"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:contentDescription="@string/set_row_autoplay" />
+                android:layout_marginTop="14dp"
+                android:background="@drawable/lg_glass_pill"
+                android:contentDescription="@string/player_lyrics_desc"
+                android:drawablePadding="7dp"
+                android:drawableTint="@color/primary"
+                android:paddingStart="18dp"
+                android:paddingTop="9dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="9dp"
+                android:text="@string/player_lyrics"
+                android:textColor="@color/on_background"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_lyrics" />
+
+            <!-- Barrinhas de DJ (v0.18.9): espectro real, assinatura do app -->
+            <com.tunegrab.app.VisualizerView
+                android:id="@+id/visualizer"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone" />
         </LinearLayout>
-    </LinearLayout>
 
-    <!-- Carregando stream remoto (reproduzir sem baixar): gira até o
-         MediaPlayer preparar / termina a pausa de rede -->
-    <ProgressBar
-        android:id="@+id/progressBuffer"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_gravity="center"
-        android:contentDescription="@string/player_buffering"
-        android:indeterminateTint="@color/primary"
-        android:visibility="gone" />
+        <!-- Carregando stream remoto -->
+        <ProgressBar
+            android:id="@+id/progressBuffer"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/player_buffering"
+            android:indeterminateTint="@color/primary"
+            android:visibility="gone" />
+    </dev.liquidglass.view.LiquidGlassProviderLayout>
 
-    <ImageButton
-        android:id="@+id/btnClose"
+    <!-- ======================= VIDROS (irmãos por cima) ==================== -->
+
+    <!-- Círculo de vidro do FECHAR (topo esquerdo) -->
+    <dev.liquidglass.view.LiquidGlassView
+        android:id="@+id/glassClose"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_margin="12dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/player_close"
-        android:src="@drawable/ic_back"
-        app:tint="@color/on_background" />
+        android:layout_gravity="top|start"
+        android:layout_margin="12dp">
 
-    <!-- CORAÇÃO (v0.22.11): salva a música nos Favoritos. Vive no canto
-         oposto ao fechar, POR CIMA de qualquer modo (áudio ou vídeo) —
-         o play HD não usa os controles de áudio, então o coração não pode
-         depender deles. v0.22.12: nasce em TODOS os modos — faixa do
-         YouTube guarda o link; arquivo local (Biblioteca/Downloads/cartão)
-         guarda o próprio uri do arquivo. -->
-    <ImageButton
-        android:id="@+id/btnFavorite"
+        <ImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/player_close"
+            android:padding="10dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/on_background" />
+    </dev.liquidglass.view.LiquidGlassView>
+
+    <!-- Círculo de vidro do CORAÇÃO (topo direito) — acompanha o btnFavorite
+         em visibilidade (nasce gone, o código acende nos dois juntos) -->
+    <dev.liquidglass.view.LiquidGlassView
+        android:id="@+id/glassFav"
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:layout_gravity="top|end"
         android:layout_margin="12dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/player_fav_desc"
-        android:src="@drawable/ic_heart"
-        android:visibility="gone"
-        app:tint="@color/on_background" />
+        android:visibility="gone">
 
-    <!-- Tela cheia do VÍDEO: gira o app para paisagem (só aparece no vídeo) -->
+        <ImageButton
+            android:id="@+id/btnFavorite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/player_fav_desc"
+            android:padding="10dp"
+            android:src="@drawable/ic_heart"
+            android:visibility="gone"
+            app:tint="@color/on_background" />
+    </dev.liquidglass.view.LiquidGlassView>
+
+    <!-- PAINEL DE LIQUID GLASS (v0.23.1-lg): scrubber + tempos + transporte +
+         autoplay flutuando em vidro real — a cápsula do lock player do iOS 26.
+         Propriedades do material entram no PlayerActivity (raio 34, refração,
+         aberração cromática 0.4 — o arco-íris na borda que o autor pediu) -->
+    <dev.liquidglass.view.LiquidGlassView
+        android:id="@+id/glassPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="12dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp">
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="30dp"
+                android:progressDrawable="@drawable/lg_slider_track"
+                android:thumb="@drawable/lg_slider_thumb"
+                android:thumbOffset="6dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvPosition"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvDuration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Transporte iOS Music: glifos brancos grandes, gaps largos —
+                 agora EM CIMA do vidro, como no lock player do iOS 26 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="2dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnPrev"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/player_previous"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_skip_previous"
+                    app:tint="@color/on_background" />
+
+                <ImageButton
+                    android:id="@+id/btnPlay"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/player_play"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_play"
+                    app:tint="@color/on_background" />
+
+                <ImageButton
+                    android:id="@+id/btnNext"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/player_next"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_skip_next"
+                    app:tint="@color/on_background" />
+            </LinearLayout>
+
+            <!-- REPRODUÇÃO AUTOMÁTICA (v0.19.18): linha própria, intocada —
+                 só agora mora dentro do vidro -->
+            <LinearLayout
+                android:id="@+id/rowAutoplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="2dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/set_row_autoplay"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/swAutoplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="@string/set_row_autoplay" />
+            </LinearLayout>
+        </LinearLayout>
+    </dev.liquidglass.view.LiquidGlassView>
+
+    <!-- Tela cheia do VÍDEO (modo vídeo: sem vidro nenhum, PlayerView manda) -->
     <ImageButton
         android:id="@+id/btnFullscreen"
         android:layout_width="44dp"

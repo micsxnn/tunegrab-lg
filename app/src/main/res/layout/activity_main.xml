@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<!-- HOSPEDAGEM LIQUID GLASS (tunegrab-lg v0.23.1-lg): o conteúdo das abas
+     mora DENTRO do LiquidGlassProviderLayout — é ele que o vidro da pílula
+     de navegação refrata. A pílula (include navBar) é IRMÃ flutuando em
+     cima, gravidade bottom: as telas rolam POR TRÁS da barra, igual ao tab
+     bar do iOS 26. Mesmos IDs de sempre (fragmentContainer, navBar) — o
+     binding e o MainActivity só ganham o provider novo. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <!-- Hospedeiro das 4 abas: troca de fragment na hora, sem recriar a tela
-         (era isso que fazia o menu "chacoalhar" na versão multi-activity) -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainer"
+    <dev.liquidglass.view.LiquidGlassProviderLayout
+        android:id="@+id/contentProvider"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent">
+
+        <!-- Hospedeiro das 6 abas: troca de fragment na hora, sem recriar a
+             tela (era isso que fazia o menu "chacoalhar" na versão
+             multi-activity) -->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </dev.liquidglass.view.LiquidGlassProviderLayout>
 
     <include
         android:id="@+id/navBar"
-        layout="@layout/view_bottom_nav" />
-</LinearLayout>
+        layout="@layout/view_bottom_nav"
+        android:layout_gravity="bottom" />
+</FrameLayout>

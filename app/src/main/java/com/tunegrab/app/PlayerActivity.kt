@@ -183,6 +183,58 @@ class PlayerActivity : AppCompatActivity() {
         binding.tvTitle.text = title
 
         binding.btnClose.setOnClickListener { closePlayer() }
+
+        // LIQUID GLASS REAL (v0.23.1-lg): os 3 vidros da tela (painel de
+        // controles + círculo do fechar + círculo do coração) bebem do MESMO
+        // provider — o ambiente da capa + bloco superior. Regra do material:
+        // vidro é irmão POR CIMA, nunca dentro do provider. A aberração
+        // cromática na borda é o pedido original do autor ("aquela
+        // aberração cromática nas bordas dos botões").
+        binding.lgProvider.also { p ->
+            listOf(binding.glassPanel, binding.glassClose, binding.glassFav)
+                .forEach { g -> g.provider = p }
+        }
+        binding.glassPanel.apply {
+            cornerRadiusDp = 34f
+            blurRadiusDp = 26f
+            refractionHeightDp = 14f
+            refractionAmountDp = 16f
+            saturation = 1.5f
+            glassTintColor = 0x1F0B0B0E.toInt()
+            chromaticAberration = 0.4f
+            highlightAlpha = 0.55f
+            highlightWidthDp = 2f
+            noiseAlpha = 0.02f
+            isGlassInteractive = true
+            fallbackScrimColor = 0x99101418.toInt()
+        }
+        binding.glassClose.apply {
+            cornerRadiusDp = -1f // cápsula = círculo perfeito
+            blurRadiusDp = 20f
+            refractionHeightDp = 10f
+            refractionAmountDp = 12f
+            saturation = 1.5f
+            glassTintColor = 0x1F0B0B0E.toInt()
+            chromaticAberration = 0.5f
+            highlightAlpha = 0.65f
+            highlightWidthDp = 1.5f
+            isGlassInteractive = true
+            fallbackScrimColor = 0x8C101418.toInt()
+        }
+        binding.glassFav.apply {
+            cornerRadiusDp = -1f
+            blurRadiusDp = 20f
+            refractionHeightDp = 10f
+            refractionAmountDp = 12f
+            saturation = 1.5f
+            glassTintColor = 0x1F0B0B0E.toInt()
+            chromaticAberration = 0.5f
+            highlightAlpha = 0.65f
+            highlightWidthDp = 1.5f
+            isGlassInteractive = true
+            fallbackScrimColor = 0x8C101418.toInt()
+        }
+
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (fullscreen) setFullscreen(false) else closePlayer()
@@ -487,9 +539,11 @@ class PlayerActivity : AppCompatActivity() {
         renderedFavFor = url
         if (url == null) {
             binding.btnFavorite.visibility = View.GONE
+            binding.glassFav.visibility = View.GONE
             return
         }
         binding.btnFavorite.visibility = View.VISIBLE
+        binding.glassFav.visibility = View.VISIBLE
         renderFavoriteState(FavoritesStore.contains(this, url))
     }
 
@@ -542,6 +596,9 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun setupAudio(uri: Uri, title: String) {
         binding.audioControls.visibility = View.VISIBLE
+        // v0.23.1-lg: o painel de vidro acende junto — scrubber, tempos,
+        // transporte e autoplay flutuam nele
+        binding.glassPanel.visibility = View.VISIBLE
         // RETÂNGULO 16:9 (v0.22.14): altura do cartão de arte = largura × 9/16
         applyArtRatio()
         initialUri = uri
@@ -687,11 +744,14 @@ class PlayerActivity : AppCompatActivity() {
             if (coverUri != source || isFinishing || isDestroyed) return@launch
             val bmp = bytes?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
             if (bmp != null) {
+                // v0.23.1-lg: a capa também INUNDA o fundo (Now Playing iOS)
+                binding.ambientBg.setArtwork(bmp)
                 binding.imgArt.setImageBitmap(bmp)
                 binding.imgArt.clipToOutline = true
                 binding.imgArtIcon.visibility = View.GONE
             } else {
                 // sem capa (ou ilegível): gradiente dourado + ícone de sempre
+                binding.ambientBg.setArtwork(null)
                 binding.imgArt.setImageDrawable(null)
                 binding.imgArtIcon.visibility = View.VISIBLE
             }
@@ -955,10 +1015,15 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    /** Dentro da janelinha: só o vídeo — o sistema dá fechar/expandir. */
+    /** Dentro da janelinha: só o vídeo — o sistema dá fechar/expandir.
+     *  v0.23.1-lg: os VIDROS somem junto (círculos do fechar/coração e o
+     *  painel de controles — janelinha é só o vídeo, sem UI por cima). */
     private fun enterPipUi() {
         binding.btnClose.visibility = View.GONE
+        binding.glassClose.visibility = View.GONE
         binding.btnFavorite.visibility = View.GONE
+        binding.glassFav.visibility = View.GONE
+        binding.glassPanel.visibility = View.GONE
         binding.btnFullscreen.visibility = View.GONE
         binding.playerView.useController = false
         binding.playerView.hideController()
@@ -967,9 +1032,16 @@ class PlayerActivity : AppCompatActivity() {
     /** Voltou pra tela normal (expandiu a janelinha): controles de volta. */
     private fun exitPipUi() {
         binding.btnClose.visibility = View.VISIBLE
+        binding.glassClose.visibility = View.VISIBLE
         // o coração volta só se ele existe (toda faixa tem identidade:
         // link do YouTube ou uri do arquivo local)
-        if (favoriteIdentity() != null) binding.btnFavorite.visibility = View.VISIBLE
+        if (favoriteIdentity() != null) {
+            binding.btnFavorite.visibility = View.VISIBLE
+            binding.glassFav.visibility = View.VISIBLE
+        }
+        if (!isVideo) {
+            binding.glassPanel.visibility = View.VISIBLE
+        }
         if (isVideo) {
             binding.btnFullscreen.visibility = View.VISIBLE
             binding.playerView.useController = true

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Véu sobre o ambiente (v0.23.1-lg): iOS deixa o topo do Now Playing mais
+     claro (a luz "cai de cima") e a base escurece pro vidro e pros tempos
+     ganharem contraste -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="270"
+        android:startColor="#2EFFFFFF"
+        android:centerColor="#00000000"
+        android:endColor="#B3050507"
+        android:type="linear" />
+</shape>

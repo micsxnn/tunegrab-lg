@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cartão da capa (v0.23.1-lg): cantos contínuos 18dp + hairline especular
+     de 1px — a borda que o Liquid Glass do iOS deixa na "lente" -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#141416" />
+    <corners android:radius="18dp" />
+    <stroke
+        android:width="1dp"
+        android:color="#2EFFFFFF" />
+</shape>

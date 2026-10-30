@@ -43,15 +43,23 @@ class MainActivity : AppCompatActivity() {
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // PÍLULA DE VIDRO (v0.23.0-lg): o GlassView desfoca o conteúdo da
-        // activity que passa por trás da barra; outline em pill (raio = metade
-        // da altura) recorta o vidro com squircle de verdade.
+        // PÍLULA DE LIQUID GLASS REAL (v0.23.1-lg): a barra agora usa o motor
+        // dev.liquidglass — o provider é o contentProvider (as telas rolando
+        // POR TRÁS da pílula) e o material refrata a borda com aberração
+        // cromática + rim especular (AGSL na API 33+, blur na 31+). Cápsula:
+        // raio alto o bastante pra fechar em pill.
         val nav = binding.navBar.navGlass
-        nav.setup(binding.root)
-        nav.clipToOutline = true
-        nav.outlineProvider = com.tunegrab.app.lg.Squircle.outline(
-            resources.displayMetrics.density * 32f
-        )
+        nav.provider = binding.contentProvider
+        nav.cornerRadiusDp = 32f
+        nav.blurRadiusDp = 24f
+        nav.refractionHeightDp = 12f
+        nav.refractionAmountDp = 14f
+        nav.saturation = 1.7f
+        nav.glassTintColor = 0x1F0B0B0E.toInt()
+        nav.chromaticAberration = 0.45f
+        nav.highlightAlpha = 0.6f
+        nav.noiseAlpha = 0.02f
+        nav.isGlassInteractive = true
         BottomNav.setup(this, binding.navBar.bottomNav, R.id.fragmentContainer, R.id.navHome)
         handleIntent(intent)
     }

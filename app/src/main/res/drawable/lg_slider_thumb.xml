@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Polegar do scrubber estilo iOS Music (v0.23.1-lg): bolinha branca
+     pequena de 12dp — o iOS usa um ponto discreto, não um cabide -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <size
+        android:width="12dp"
+        android:height="12dp" />
+    <solid android:color="#FFFFFF" />
+</shape>

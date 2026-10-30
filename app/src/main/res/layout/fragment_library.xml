@@ -316,5 +316,5 @@
         android:layout_weight="99"
         android:clipToPadding="false"
         android:paddingHorizontal="12dp"
-        android:paddingBottom="8dp" />
+        android:paddingBottom="112dp" />
 </LinearLayout>
