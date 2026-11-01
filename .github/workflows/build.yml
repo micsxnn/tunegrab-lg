@@ -38,6 +38,13 @@ jobs:
       - name: Setup Gradle (com cache)
         uses: gradle/actions/setup-gradle@v4
 
+      # Task 121 (kit Liquid Glass do LastWave): toolchain novo — compileSdk
+      # 37.0, NDK fixado 28.2 e CMake 3.22.1. O AGP 9 auto-instalaria, mas
+      # instalar aqui é determinístico e mais rápido (licenças já aceitas
+      # na imagem do runner).
+      - name: SDK do toolchain novo (platform 37.0 + NDK 28.2 + CMake)
+        run: sdkmanager --install "platforms;android-37.0" "ndk;28.2.13676358" "cmake;3.22.1" > /dev/null
+
       # Push normal compila SÓ o release (é o que a gente instala).
       # Tag compila o debug também (vai anexado na release para depurar).
       # Sem --no-daemon: o daemon aproveita o JIT quente e o setup-gradle o encerra no fim.
